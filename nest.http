@@ -1,0 +1,7 @@
+POST http://localhost:4200/auth/register
+Content-Type: application/json
+
+{
+  "email": "shpack",
+  "password:": "12345"
+}
