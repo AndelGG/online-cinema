@@ -2,6 +2,15 @@ POST http://localhost:4200/auth/register
 Content-Type: application/json
 
 {
-  "email": "shpack",
-  "password:": "12345"
+  "email": "andel@mail.ru",
+  "password": "123456"
+}
+
+### login
+POST http://localhost:4200/auth/login
+Content-Type: application/json
+
+{
+  "email": "andel@mail.ru",
+  "password": "123456"
 }
