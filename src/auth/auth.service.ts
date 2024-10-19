@@ -10,7 +10,6 @@ import { AuthDto } from './dto/auth.dto'
 import { genSalt, compare, hash } from 'bcryptjs'
 import { JwtService } from '@nestjs/jwt'
 import { RefreshTokenDto } from './dto/refreshToken.dto'
-import { ExtractJwt } from 'passport-jwt'
 
 @Injectable()
 export class AuthService {
@@ -51,10 +50,11 @@ export class AuthService {
 			email: dto.email,
 			password: await hash(dto.password, salt),
 		})
-		const tokens = await this.issueTokenPair(String(newUser._id))
+		const user = await newUser.save()
+		const tokens = await this.issueTokenPair(String(user._id))
 
 		return {
-			user: this.returnUserField(newUser),
+			user: this.returnUserField(user),
 			...tokens,
 		}
 	}
