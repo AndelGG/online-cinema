@@ -10,10 +10,10 @@ export class UserService {
 	constructor(
 		@InjectModel(UserModel) private readonly userModel: ModelType<UserModel>
 	) {}
-	async byId(_id: string) {
-		const user = await this.userModel.findById(_id)
+	async byId(id: string) {
+		const user = await this.userModel.findById(id)
 
-		if (!user) throw new NotFoundException(`User with id ${_id} not found`)
+		if (!user) throw new NotFoundException(`User with id ${id} not found`)
 
 		return user
 	}
