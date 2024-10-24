@@ -11,59 +11,54 @@ import {
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common'
-import { GenreService } from './genre.service'
+import { ActorService } from './actor.service'
 import { Auth } from '../auth/decorators/auth.decorator'
 import { IDValidationPipe } from '../pipes/id.validation.pipes'
-import { CreateGenreDto } from './dto/create-genre.dto'
+import { ActorDto } from './actor.dto'
 
-@Controller('genres')
-export class GenreController {
-	constructor(private readonly genreService: GenreService) {}
+@Controller('actors')
+export class ActorController {
+	constructor(private readonly ActorService: ActorService) {}
 
 	@UsePipes(new ValidationPipe())
 	@Put(':id')
 	@HttpCode(200)
 	@Auth('admin')
-	async updateGenre(
+	async updateActor(
 		@Param('id', IDValidationPipe) id: string,
-		@Body() dto: CreateGenreDto
+		@Body() dto: ActorDto
 	) {
-		return this.genreService.updateGenre(id, dto)
+		return this.ActorService.updateActor(id, dto)
 	}
 
 	@UsePipes(new ValidationPipe())
 	@Post('')
 	@HttpCode(200)
 	@Auth('admin')
-	async createGenre() {
-		return this.genreService.createGenre()
+	async createActor() {
+		return this.ActorService.createActor()
 	}
 
 	@Delete(':id')
 	@HttpCode(200)
 	@Auth()
-	async deleteGenre(@Param('id') id: string) {
-		return this.genreService.deleteGenre(id)
+	async deleteActor(@Param('id') id: string) {
+		return this.ActorService.deleteActor(id)
 	}
 
 	@Get('by-slug/:slug')
 	async getBySlug(@Param('slug') slug: string) {
-		return this.genreService.bySlug(slug)
-	}
-
-	@Get('collections')
-	async getCollections() {
-		return this.genreService.getCollections()
+		return this.ActorService.bySlug(slug)
 	}
 
 	@Get()
 	async getAll(@Query('searchTerm') searchTerm: string) {
-		return this.genreService.getAll(searchTerm)
+		return this.ActorService.getAll(searchTerm)
 	}
 
 	@Get(':id')
 	@Auth('admin')
 	async getById(@Param('id', IDValidationPipe) id: string) {
-		return this.genreService.byId(id)
+		return this.ActorService.byId(id)
 	}
 }

@@ -9,6 +9,8 @@ import { UserModule } from './user/user.module';
 import { GenreModule } from './genre/genre.module';
 import { FileController } from './file/file.controller';
 import { FileModule } from './file/file.module';
+import { ActorService } from './actor/actor.service';
+import { ActorModule } from './actor/actor.module';
 
 
 @Module({
@@ -24,9 +26,10 @@ import { FileModule } from './file/file.module';
     AuthModule,
     UserModule,
     GenreModule,
-    FileModule
+    FileModule,
+    ActorModule
   ],
   controllers: [AppController, FileController],
-  providers: [AppService],
+  providers: [AppService, ActorService],
 })
 export class AppModule {}
