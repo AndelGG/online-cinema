@@ -11,6 +11,7 @@ import { FileController } from './file/file.controller';
 import { FileModule } from './file/file.module';
 import { ActorService } from './actor/actor.service';
 import { ActorModule } from './actor/actor.module';
+import { MovieModule } from './movie/movie.module';
 
 
 @Module({
@@ -27,7 +28,8 @@ import { ActorModule } from './actor/actor.module';
     UserModule,
     GenreModule,
     FileModule,
-    ActorModule
+    ActorModule,
+    MovieModule
   ],
   controllers: [AppController, FileController],
   providers: [AppService, ActorService],
