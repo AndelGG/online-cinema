@@ -7,23 +7,23 @@ import { ActorDto } from './actor.dto'
 @Injectable()
 export class ActorService {
 	constructor(
-		@InjectModel(ActorModel) private readonly ActorModel: ModelType<ActorModel>
+		@InjectModel(ActorModel) private readonly actorModel: ModelType<ActorModel>
 	) {}
 
 	async bySlug(slug: string) {
-		const doc = await this.ActorModel.findOne({ slug }).exec()
+		const doc = await this.actorModel.findOne({ slug }).exec()
 		if (!doc) throw new NotFoundException('Actor not found')
 		return doc
 	}
 
 	async byId(id: string) {
-		const actor = this.ActorModel.findById(id)
+		const actor = this.actorModel.findById(id)
 		if (!actor) throw new NotFoundException(`Actor with id ${id} not found`)
 		return actor
 	}
 
 	async updateActor(id: string, dto: ActorDto) {
-		const updateActor = this.ActorModel.findByIdAndUpdate(id, dto, {
+		const updateActor = this.actorModel.findByIdAndUpdate(id, dto, {
 			new: true,
 		}).exec()
 
@@ -40,12 +40,12 @@ export class ActorService {
 			photo: '',
 		}
 
-		const Actor = await this.ActorModel.create(defaultValue)
+		const Actor = await this.actorModel.create(defaultValue)
 		return Actor._id
 	}
 
 	async deleteActor(id: string) {
-		const deleteActor = await this.ActorModel.findByIdAndDelete(id).exec()
+		const deleteActor = await this.actorModel.findByIdAndDelete(id).exec()
 
 		if (!deleteActor)
 			throw new NotFoundException(`Actor with id ${id} not found`)
@@ -64,9 +64,12 @@ export class ActorService {
 				],
 			}
 
-		return this.ActorModel.find(options)
-			.select('-updatedAt -__v')
-			.sort({ createdAt: 'desc' })
+		return this.actorModel.aggregate().
+		match(options)
+			.lookup({from: 'Movie', foreignField: 'actors', localField: '_id', as: 'movies'})
+			.addFields({countMovies: {$size: '$movies'}})
+			.project({__v: 0, updatedAt: 0, movies: 0})
+			.sort({ createdAt: -1 })
 			.exec()
 	}
 }

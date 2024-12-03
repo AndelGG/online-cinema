@@ -41,7 +41,7 @@ export class ActorController {
 
 	@Delete(':id')
 	@HttpCode(200)
-	@Auth()
+	@Auth('admin')
 	async deleteActor(@Param('id') id: string) {
 		return this.ActorService.deleteActor(id)
 	}

@@ -4,6 +4,7 @@ import { UserModel } from './user.model'
 import { ModelType } from '@typegoose/typegoose/lib/types'
 import { UpdateUserDTO } from './dto/updateUser.dto'
 import { genSalt, hash } from 'bcryptjs'
+import { Types } from 'mongoose'
 
 @Injectable()
 export class UserService {
@@ -60,5 +61,17 @@ export class UserService {
 				createdAt: 'desc',
 			})
 			.exec()
+	}
+
+	async toggleFavorite(movieId: Types.ObjectId, {_id, favorites}: UserModel) {
+		await this.userModel.findByIdAndUpdate(_id, {
+			favorites: favorites.includes(movieId) ? favorites.filter(id => String(id) !== String(movieId)) : [...favorites, movieId],
+		})
+	}
+
+	async getFavoriteMovies(_id: Types.ObjectId) {
+		return this.userModel.findById(_id, 'favorites').populate({path: 'favorites', populate: {
+			path: 'genres',
+			}}).exec().then((data) => data.favorites)
 	}
 }

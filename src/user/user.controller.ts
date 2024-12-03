@@ -15,6 +15,8 @@ import { Auth } from 'src/auth/decorators/auth.decorator'
 import { User } from './decorators/user.decorator'
 import { UpdateUserDTO } from './dto/updateUser.dto'
 import { IDValidationPipe } from '../pipes/id.validation.pipes'
+import { Types } from 'mongoose'
+import { UserModel } from './user.model'
 
 @Controller('users')
 export class UserController {
@@ -67,5 +69,18 @@ export class UserController {
 	@Auth('admin')
 	async deleteUser(@Param('id', IDValidationPipe) id: string) {
 		return this.userService.delete(id)
+	}
+
+	@Get('profile/favorites')
+	@Auth()
+	async getFavorites(@User('id') id: Types.ObjectId) {
+		return this.userService.getFavoriteMovies(id)
+	}
+
+	@Put('profile/favorites')
+	@HttpCode(200)
+	@Auth()
+	async toggleFavorite(@User('id') user: UserModel, @Body('movieId', IDValidationPipe) movieId: Types.ObjectId) {
+		return this.userService.toggleFavorite(movieId, user)
 	}
 }

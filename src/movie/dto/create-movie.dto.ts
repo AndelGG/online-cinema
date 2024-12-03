@@ -1,6 +1,5 @@
 import {
 	IsArray,
-	IsBoolean,
 	IsNumber,
 	IsObject,
 	IsString,
@@ -40,12 +39,8 @@ export class CreateMovieDto {
 	@IsString()
 	slug: string
 
-	@IsString()
-	description: string
-
 	@IsObject()
 	parameters?: Parameters
 
-	@IsBoolean()
 	isSendTelegram?: boolean
 }

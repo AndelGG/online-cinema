@@ -2,8 +2,7 @@ import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 import { prop, Ref } from '@typegoose/typegoose'
 import { ActorModel } from '../actor/actor.model'
 import { GenreModel } from '../genre/genre.model'
-
-export interface MovieModel extends Base {}
+import { ObjectId } from 'mongodb'
 
 export class Parameters {
 	@prop()
@@ -15,7 +14,10 @@ export class Parameters {
 	@prop()
 	country: string
 }
-export class MovieModel extends TimeStamps {
+export class MovieModel extends TimeStamps implements Base {
+	id: string
+	_id: ObjectId
+
 	@prop()
 	poster: string
 
@@ -36,9 +38,6 @@ export class MovieModel extends TimeStamps {
 
 	@prop({ unique: true })
 	slug: string
-
-	@prop()
-	description: string
 
 	@prop({ default: 4.0 })
 	rating?: number

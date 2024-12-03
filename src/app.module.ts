@@ -9,9 +9,9 @@ import { UserModule } from './user/user.module';
 import { GenreModule } from './genre/genre.module';
 import { FileController } from './file/file.controller';
 import { FileModule } from './file/file.module';
-import { ActorService } from './actor/actor.service';
 import { ActorModule } from './actor/actor.module';
 import { MovieModule } from './movie/movie.module';
+import { TelegramModule } from './telegram/telegram.module';
 
 
 @Module({
@@ -29,9 +29,10 @@ import { MovieModule } from './movie/movie.module';
     GenreModule,
     FileModule,
     ActorModule,
-    MovieModule
+    MovieModule,
+    TelegramModule
   ],
   controllers: [AppController, FileController],
-  providers: [AppService, ActorService],
+  providers: [AppService],
 })
 export class AppModule {}
